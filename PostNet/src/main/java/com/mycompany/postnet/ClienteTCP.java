@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package com.mycompany.cajeroautomatico;
+package com.mycompany.postnet;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
@@ -36,9 +36,10 @@ public class ClienteTCP {
                         //
                         DataInputStream in = new DataInputStream(sock.getInputStream());
                         DataOutputStream out = new DataOutputStream(sock.getOutputStream());
-                        // Escribe el nombre y se lo manda al servidor
-                        
-                        out.writeUTF("1");
+            
+                         // Escribe el nombre y se lo manda al servidor
+                         
+                        out.writeUTF("3");
                         
                         // Leer mensaje del servidor
                         String mensaje = in.readUTF();
