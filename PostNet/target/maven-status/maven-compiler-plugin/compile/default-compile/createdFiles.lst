@@ -1,2 +1,5 @@
-com\mycompany\postnet\ClienteHilo.class
 com\mycompany\postnet\ClienteTCP.class
+com\mycompany\postnet\MenuPostnet$2.class
+com\mycompany\postnet\ClienteHilo.class
+com\mycompany\postnet\MenuPostnet$1.class
+com\mycompany\postnet\MenuPostnet.class

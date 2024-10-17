@@ -30,54 +30,42 @@ public class ClienteTCP {
             DataInputStream in = new DataInputStream(sock.getInputStream());
             DataOutputStream out = new DataOutputStream(sock.getOutputStream());
 
-            out.writeUTF("2");
-            // Esperar e imprimir el mensaje inicial del servidor (solicitud de cuenta)
-            String mensajeInicial = in.readUTF();
-            System.out.println(mensajeInicial);
-
-            // Ingresar número de cuenta
-            String NumCuenta = sn.next();
-            out.writeUTF(NumCuenta);
-
-            // Bucle para manejar el menú
-            String respuestaServidor;
+            //out.writeUTF("2");
+            System.out.println("Bienvenido. Ingrese numero de cuenta"); 
+            String idCuenta = sn.nextLine();
+            out.writeUTF("HomeBanking,"+idCuenta+",0,0");
+            String idCuentaExiste = in.readUTF();
+            
+            int opcion = 0;
             do {
-                // Leer el menú del servidor
-                respuestaServidor = in.readUTF();
-                System.out.println(respuestaServidor);
+                
+                float fondosCuenta = 0;
+                // Enviar opciones al cliente
+                System.out.println("\nHola, ingresó a HomeBanking de "+idCuentaExiste+". Elige una opción:\n"
+                        + "1. Transferencia\n"
+                        + "4. Salir\n"
+                        + "Ingrese el número de la opción:");
 
                 // Leer la opción seleccionada por el cliente
-                String opcion = sn.next();
-                out.writeUTF(opcion);  // Enviar la opción al servidor
-
-                // Leer la respuesta del servidor
-                respuestaServidor = in.readUTF();
-                System.out.println(respuestaServidor);
-
-                // Si la opción es 1 (Transferencia), enviar datos adicionales
-                if (opcion.equals("1")) {
-                    // Ingresar monto a transferir
-                    String monto = sn.next();
-                    out.writeUTF(monto);
-                    
-                     respuestaServidor = in.readUTF();
-                    System.out.println(respuestaServidor);
-
-                    // Ingresar número de destinatario
-                    String destinatario = sn.next();
-                    out.writeUTF(destinatario);
-
-                    // Leer confirmación de transferencia
-                    respuestaServidor = in.readUTF();
-                    System.out.println(respuestaServidor);
+                String opcionStr = sn.nextLine();
+                System.out.println("ingrese ID del destino a transferir");
+                String idDestino = sn.nextLine();
+                System.out.println("ingrese monto a transferir");
+                String montoTrnasferencia = sn.nextLine();
+                out.writeUTF("Transferencia,"+idCuenta+","+montoTrnasferencia+","+idDestino);
+                System.out.println("Transferencia exitosa: "+in.readUTF());
+                try {
+                    opcion = Integer.parseInt(opcionStr);
+                } catch (NumberFormatException e) {
+                    System.out.println("Opción no válida, por favor ingrese un número.");
+                    continue; // Volver al inicio del bucle
                 }
-
-            } while (!respuestaServidor.contains("hasta luego"));  // Finaliza cuando el servidor manda mensaje de salida
+            } while (opcion != 4);
             
         } catch (UnknownHostException e) {
             System.err.println("host unreachable: localhost");
         } catch (IOException e) {
             System.err.println("cannot connect to: localhost");
         }
-    }
+    }    
 }
